@@ -3,740 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المساعد الصحي الذكي - Smart Medical Assistant</title>
-    <!-- Tailwind CSS for modern responsive styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- html2pdf for exporting reports -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        medical: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0284c7',
-                            600: '#0369a1',
-                            700: '#0f172a',
-                            accent: '#0d9488'
-                        }
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
+    <title>المساعد الصحي الذكي - OpenRouter Edition</title>
     <style>
+        :root {
+            --primary-color: #0284c7;
+            --primary-hover: #0369a1;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --accent-color: #0ea5e9;
+        }
+
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
         }
-        .pulse-ring {
-            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-            animation: pulse-animation 1.5s infinite;
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
-        @keyframes pulse-animation {
-            0% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-            }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+
+        header h1 {
+            color: var(--primary-color);
+            margin: 0 0 5px 0;
+            font-size: 1.8rem;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
+
+        .disclaimer-banner {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            text-align: center;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+        }
+
+        .section h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button.recording {
+            background-color: #dc2626;
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .preview-img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            object-fit: cover;
+        }
+
+        #result-area {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .loading {
+            text-align: center;
+            display: none;
+            margin: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: #64748b;
         }
     </style>
 </head>
-<body class="text-slate-800 bg-slate-50 min-h-screen flex flex-col justify-between">
+<body>
 
-    <!-- Top Disclaimer Banner -->
-    <div class="bg-amber-500 text-white text-xs md:text-sm py-2 px-4 text-center font-medium shadow-md">
-        <i class="fa-solid fa-triangle-exclamation ml-2"></i>
-        <span><strong>تنبيه طبي مهم:</strong> هذا التطبيق استرشادي يعتمد على الذكاء الاصطناعي للمساعدة فقط، ولا يعتبر بديلاً عن استشارة الطبيب المختص أو التشخيص الطبي المعتمد.</span>
-    </div>
-
-    <!-- Header Navigation -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-teal-500 flex items-center justify-center text-white shadow-md">
-                    <i class="fa-solid fa-heart-pulse text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold text-slate-800 leading-tight">المساعد الصحي الذكي</h1>
-                    <p class="text-xs text-slate-500">Smart Medical Assistant</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <!-- Toggle History Modal -->
-                <button onclick="toggleHistoryModal(true)" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-sm font-semibold transition">
-                    <i class="fa-solid fa-clock-rotate-left text-sky-600"></i>
-                    <span class="hidden sm:inline">سجل الفحوصات</span>
-                </button>
-                
-                <!-- Settings / API Key Modal Button -->
-                <button onclick="toggleSettingsModal(true)" class="flex items-center gap-2 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 px-3 py-2 rounded-lg text-sm font-semibold transition">
-                    <i class="fa-solid fa-key text-sky-600"></i>
-                    <span class="hidden sm:inline">إعدادات API</span>
-                </button>
-            </div>
-        </div>
+<div class="container">
+    <header>
+        <h1>🏥 المساعد الصحي الذكي</h1>
+        <p>استشارة وتقييم صحي أولي مدعوم بالذكاء الاصطناعي</p>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Left Side: Multimodal Input Controls (5 Cols) -->
-            <div class="lg:col-span-5 space-y-6">
-                
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                    <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-3 border-slate-100">
-                        <i class="fa-solid fa-notes-medical text-sky-600"></i>
-                        <span>إدخال بيانات الحالة والأعراض</span>
-                    </h2>
+    <div class="disclaimer-banner">
+        ⚠️ <strong>تنبيه هائم:</strong> هذا التطبيق مخصص للاستخدام الاسترشادي والعائلي الخاص فقط، ولا يغني بأي حال من الأحوال عن تشخيص الطبيب المختص أو مراجعة المراكز الطبية.
+    </div>
 
-                    <!-- Mode Indicator -->
-                    <div id="apiStatusBadge" class="mb-4 p-2.5 rounded-xl text-xs font-medium flex items-center justify-between bg-amber-50 text-amber-800 border border-amber-200">
-                        <span class="flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-                            وضع التجربة والمحاكاة (بدون API Key)
-                        </span>
-                        <button onclick="toggleSettingsModal(true)" class="underline text-amber-900 hover:text-black">تغيير</button>
-                    </div>
-
-                    <!-- Voice Input Section -->
-                    <div class="mb-5 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <label class="block text-sm font-bold text-slate-700 mb-2">1. الشكوى والأعراض الصوتية:</label>
-                        <div class="flex items-center gap-3 mb-2">
-                            <button id="recordBtn" onclick="toggleRecording()" class="flex-1 bg-sky-600 hover:bg-sky-700 text-white py-2.5 px-4 rounded-xl font-medium transition flex items-center justify-center gap-2 shadow-sm">
-                                <i id="recordIcon" class="fa-solid fa-microphone"></i>
-                                <span id="recordText">بدء التسجيل الصوتي</span>
-                            </button>
-                        </div>
-                        <div id="recordingStatus" class="hidden text-xs text-red-500 font-semibold mb-2 flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-red-500 pulse-ring"></span>
-                            جاري الاستماع وتسجيل صوت المريض...
-                        </div>
-                        <textarea id="symptomsText" rows="3" placeholder="أو اكتب الشكوى والأعراض هنا تفصيلياً (مثال: ألم في الحلق، ارتفاع حرارة منذ يومين...)" class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none custom-scrollbar"></textarea>
-                    </div>
-
-                    <!-- Image Section (Physical Examination) -->
-                    <div class="mb-5 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <label class="block text-sm font-bold text-slate-700 mb-2">2. صورة الجزء المصاب (فحص ظاهري):</label>
-                        <div class="flex items-center justify-center w-full">
-                            <label class="flex flex-col items-center justify-center w-full h-28 border-2 border-slate-300 border-dashed rounded-xl cursor-pointer bg-white hover:bg-slate-50 transition">
-                                <div id="symptomImgPlaceholder" class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <i class="fa-solid fa-camera-retro text-slate-400 text-2xl mb-1"></i>
-                                    <p class="text-xs text-slate-500">انقر لرفع صورة الحالة (جلد، عين، انتفاخ...)</p>
-                                </div>
-                                <img id="symptomImgPreview" class="hidden h-full w-full object-cover rounded-xl" />
-                                <input id="symptomImgInput" type="file" accept="image/*" class="hidden" onchange="previewImage(this, 'symptomImgPreview', 'symptomImgPlaceholder')" />
-                            </label>
-                        </div>
-                        <button id="removeSymptomImgBtn" onclick="removeImage('symptomImgInput', 'symptomImgPreview', 'symptomImgPlaceholder')" class="hidden text-xs text-red-500 mt-1 hover:underline">إزالة الصورة</button>
-                    </div>
-
-                    <!-- Medical Lab Reports Section -->
-                    <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <label class="block text-sm font-bold text-slate-700 mb-2">3. صورة التحاليل وتقارير المختبر:</label>
-                        <div class="flex items-center justify-center w-full mb-2">
-                            <label class="flex flex-col items-center justify-center w-full h-28 border-2 border-slate-300 border-dashed rounded-xl cursor-pointer bg-white hover:bg-slate-50 transition">
-                                <div id="labImgPlaceholder" class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <i class="fa-solid fa-file-invoice-dollar text-slate-400 text-2xl mb-1"></i>
-                                    <p class="text-xs text-slate-500">ارفق صورة تقرير المختبر أو الفحوصات</p>
-                                </div>
-                                <img id="labImgPreview" class="hidden h-full w-full object-cover rounded-xl" />
-                                <input id="labImgInput" type="file" accept="image/*" class="hidden" onchange="previewImage(this, 'labImgPreview', 'labImgPlaceholder')" />
-                            </label>
-                        </div>
-                        <button id="removeLabImgBtn" onclick="removeImage('labImgInput', 'labImgPreview', 'labImgPlaceholder')" class="hidden text-xs text-red-500 mt-1 hover:underline">إزالة صورة التقرير</button>
-                        <input id="labNotes" type="text" placeholder="ملاحظات إضافية على التحاليل (اختياري)" class="w-full mt-2 p-2.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none" />
-                    </div>
-
-                    <!-- Action Button -->
-                    <button id="analyzeBtn" onclick="processMedicalAnalysis()" class="w-full bg-gradient-to-r from-sky-600 to-teal-600 hover:from-sky-700 hover:to-teal-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-stethoscope text-lg"></i>
-                        <span>بدء الفحص والتحليل الذكي</span>
-                    </button>
-                </div>
-
+    <div class="section">
+        <h3>1. شكوى المريض (نص أو تسجيل صوتي)</h3>
+        <div class="form-group">
+            <textarea id="symptoms-text" rows="4" placeholder="اكتب الأعراض التي تشتكي منها هنا أو استخدم التسجيل الصوتي..."></textarea>
+            <div class="voice-controls">
+                <button id="record-btn" onclick="toggleRecording()">🎤 بدء التسجيل الصوتي</button>
+                <span id="record-status" style="font-size: 0.9rem; color: #64748b;"></span>
             </div>
-
-            <!-- Right Side: Detailed Results Dashboard (7 Cols) -->
-            <div class="lg:col-span-7 space-y-6">
-
-                <!-- Loading Spinner -->
-                <div id="loadingCard" class="hidden bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center py-16">
-                    <div class="inline-block p-4 bg-sky-50 rounded-full text-sky-600 mb-4 animate-bounce">
-                        <i class="fa-solid fa-brain text-4xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">جاري قراءة البيانات وتحليل الحالة بواسطة الذكاء الاصطناعي...</h3>
-                    <p class="text-xs text-slate-500 max-w-md mx-auto">يتم الآن معالجة الشكوى الصوتية، وفحص الصور الظاهرية، وقراء متغبرات ورقة المختبر لاستخراج التقرير الاسترشادي.</p>
-                </div>
-
-                <!-- Empty Welcome State -->
-                <div id="emptyStateCard" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center py-16">
-                    <div class="inline-block p-4 bg-slate-100 rounded-full text-slate-400 mb-4">
-                        <i class="fa-solid fa-notes-medical text-4xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-700 mb-1">في انتظار إدخال البيانات</h3>
-                    <p class="text-sm text-slate-500 max-w-sm mx-auto">قم بملء الشكوى، أو التقاط صورة للحالة، أو رفع ورقة التحاليل من القائمة الجانبية ثم اضغط "بدء الفحص".</p>
-                </div>
-
-                <!-- Report Display Section -->
-                <div id="reportContainer" class="hidden space-y-6">
-                    
-                    <!-- Report Header Actions -->
-                    <div class="flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                        <span class="text-xs font-semibold text-slate-500 flex items-center gap-1">
-                            <i class="fa-regular fa-calendar-check text-sky-600"></i>
-                            تاريخ الفحص: <span id="reportDate">-</span>
-                        </span>
-                        <div class="flex items-center gap-2">
-                            <button onclick="saveReportToHistory()" class="bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
-                                <i class="fa-solid fa-bookmark"></i>
-                                <span>حفظ بالسجل</span>
-                            </button>
-                            <button onclick="exportReportPDF()" class="bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
-                                <i class="fa-solid fa-file-pdf"></i>
-                                <span>تصدير PDF</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Main Report Content for PDF Export -->
-                    <div id="reportPrintArea" class="space-y-6">
-
-                        <!-- Card 1: Symptoms Summary -->
-                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                            <h3 class="text-md font-bold text-slate-800 border-b pb-3 border-slate-100 flex items-center gap-2">
-                                <i class="fa-solid fa-clipboard-user text-sky-600"></i>
-                                <span>1. ملخص الأعراض والبيانات المرصودة</span>
-                            </h3>
-                            <div id="resSummary" class="mt-4 text-sm text-slate-700 leading-relaxed">
-                                -
-                            </div>
-                        </div>
-
-                        <!-- Card 2: Diagnoses & Possibilities -->
-                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                            <h3 class="text-md font-bold text-slate-800 border-b pb-3 border-slate-100 flex items-center gap-2">
-                                <i class="fa-solid fa-stethoscope text-sky-600"></i>
-                                <span>2. التشخيصات والاحتمالات الطبية المتوقعة</span>
-                            </h3>
-                            <div id="resDiagnoses" class="mt-4 space-y-3">
-                                -
-                            </div>
-                        </div>
-
-                        <!-- Card 3: Recommendations & Care -->
-                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                            <h3 class="text-md font-bold text-slate-800 border-b pb-3 border-slate-100 flex items-center gap-2">
-                                <i class="fa-solid fa-pills text-teal-600"></i>
-                                <span>3. النصائح والإرشادات العلاجية المقترحة</span>
-                            </h3>
-                            <div id="resRecommendations" class="mt-4 text-sm text-slate-700 leading-relaxed space-y-2">
-                                -
-                            </div>
-                        </div>
-
-                        <!-- Card 4: Red Flags / Warning Alerts -->
-                        <div class="bg-red-50 rounded-2xl p-6 shadow-sm border border-red-200">
-                            <h3 class="text-md font-bold text-red-800 border-b pb-3 border-red-200 flex items-center gap-2">
-                                <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
-                                <span>4. علامات الخطر ومتى تجب زيارة الطوارئ فوراً</span>
-                            </h3>
-                            <div id="resWarnings" class="mt-4 text-sm text-red-900 leading-relaxed">
-                                -
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
         </div>
-    </main>
+    </div>
 
-    <!-- Footer with Developer Credit -->
-    <footer class="bg-white border-t border-slate-200 py-4 mt-8">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-sm font-semibold text-slate-700">
-                مع تحيات الأستاذ عمر حسان عبره
-            </p>
-            <p class="text-xs text-slate-400 mt-1">جميع الحقوق محفوظة © 2026 - نظام المساعد الصحي الذكي الخاص</p>
+    <div class="section">
+        <h3>2. رفع صور (الفحص الظاهري / الفحوصات والتحاليل)</h3>
+        <div class="form-group">
+            <input type="file" id="image-input" accept="image/*" multiple onchange="handleImageUpload(event)">
+            <div class="preview-container" id="preview-container"></div>
         </div>
+    </div>
+
+    <button style="width: 100%; font-size: 1.1rem;" onclick="analyzeHealthState()">🔍 تشخيص وتحليل الحالة</button>
+
+    <div class="loading" id="loading-spinner">
+        ⏳ جاري تحليل البيانات المرفقة وإعداد التقرير الصحي...
+    </div>
+
+    <div id="result-area"></div>
+
+    <footer>
+        تطوير وإعداد المساعد الصحي الذكي | مع تحيات الأستاذ عمر حسان عبره
     </footer>
+</div>
 
-    <!-- Settings Modal (API Key) -->
-    <div id="settingsModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200">
-            <div class="flex items-center justify-between border-b pb-3 mb-4">
-                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
-                    <i class="fa-solid fa-sliders text-sky-600"></i>
-                    إعدادات مفتاح Gemini API
-                </h3>
-                <button onclick="toggleSettingsModal(false)" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            
-            <p class="text-xs text-slate-600 mb-4 leading-relaxed">
-                للحصول على تحليل حقيقي ودقيق بواسطة نماذج الذكاء الاصطناعي من جوجل (Gemini 3 Flash)، يرجى إدخال مفتاح API الخاص بك. يتوفر المفتاح مجاناً من Google AI Studio.
-            </p>
+<script>
+    // OpenRouter Configuration
+    const OPENROUTER_API_KEY = "sk-or-v1-742••••••••••••••••••••54d2"; // تم ضبط المفتاح تلقائياً
+    const API_URL = "https://openrouter.ai/api/v1/chat/completions";
+    const MODEL_NAME = "google/gemini-2.0-flash-exp:free";
 
-            <div class="mb-4">
-                <label class="block text-xs font-bold text-slate-700 mb-1">مفتاح API Key:</label>
-                <input id="apiKeyInput" type="password" placeholder="AIzaSy..." class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" />
-            </div>
+    let recognition;
+    let isRecording = false;
+    let base64Images = [];
 
-            <div class="flex items-center gap-2 justify-end">
-                <button onclick="clearApiKey()" class="text-xs text-red-600 hover:underline px-3 py-2">حذف المفتاح</button>
-                <button onclick="saveApiKey()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition">حفظ وإغلاق</button>
-            </div>
-        </div>
-    </div>
+    // Web Speech API Configuration
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'ar-SA';
+        recognition.continuous = true;
 
-    <!-- History Modal -->
-    <div id="historyModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-xl border border-slate-200 max-h-[85vh] flex flex-col">
-            <div class="flex items-center justify-between border-b pb-3 mb-4">
-                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
-                    <i class="fa-solid fa-clock-rotate-left text-sky-600"></i>
-                    سجل الفحوصات والتقارير السابقة
-                </h3>
-                <button onclick="toggleHistoryModal(false)" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <div id="historyList" class="flex-grow overflow-y-auto custom-scrollbar space-y-3 p-1">
-                <!-- History Items Rendered Here -->
-            </div>
-
-            <div class="border-t pt-3 mt-4 flex justify-between items-center">
-                <button onclick="clearHistory()" class="text-xs text-red-600 hover:underline font-semibold">مسح كافة السجلات</button>
-                <button onclick="toggleHistoryModal(false)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2 rounded-lg">إغلاق</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Application Script Logic -->
-    <script>
-        // State Variables
-        let isRecording = false;
-        let recognition = null;
-        let currentReportData = null;
-
-        // On Page Load
-        window.onload = function() {
-            checkApiKeyStatus();
-            initSpeechRecognition();
+        recognition.onresult = (event) => {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+            }
+            document.getElementById('symptoms-text').value += ' ' + transcript;
         };
 
-        // Modal Controls
-        function toggleSettingsModal(show) {
-            document.getElementById('settingsModal').classList.toggle('hidden', !show);
-            if (show) {
-                document.getElementById('apiKeyInput').value = localStorage.getItem('gemini_api_key') || '';
-            }
+        recognition.onerror = (event) => {
+            console.error("Speech Error: ", event.error);
+            document.getElementById('record-status').innerText = "حدث خطأ في التسجيل الصوتى.";
+        };
+    }
+
+    function toggleRecording() {
+        if (!recognition) {
+            alert("المتصفح الحالي لا يدعم ميزة تحويل الصوت إلى نص.");
+            return;
         }
 
-        function toggleHistoryModal(show) {
-            document.getElementById('historyModal').classList.toggle('hidden', !show);
-            if (show) {
-                renderHistoryList();
-            }
-        }
+        const recordBtn = document.getElementById('record-btn');
+        const recordStatus = document.getElementById('record-status');
 
-        // API Key Storage Handlers
-        function saveApiKey() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            if (key) {
-                localStorage.setItem('gemini_api_key', key);
-            } else {
-                localStorage.removeItem('gemini_api_key');
-            }
-            checkApiKeyStatus();
-            toggleSettingsModal(false);
-        }
-
-        function clearApiKey() {
-            localStorage.removeItem('gemini_api_key');
-            document.getElementById('apiKeyInput').value = '';
-            checkApiKeyStatus();
-            toggleSettingsModal(false);
-        }
-
-        function checkApiKeyStatus() {
-            const key = localStorage.getItem('gemini_api_key');
-            const badge = document.getElementById('apiStatusBadge');
-            if (key) {
-                badge.className = "mb-4 p-2.5 rounded-xl text-xs font-medium flex items-center justify-between bg-teal-50 text-teal-800 border border-teal-200";
-                badge.innerHTML = `
-                    <span class="flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-teal-500"></span>
-                        متصل بـ Gemini API المباشر
-                    </span>
-                    <button onclick="toggleSettingsModal(true)" class="underline text-teal-900 hover:text-black">تعديل</button>
-                `;
-            } else {
-                badge.className = "mb-4 p-2.5 rounded-xl text-xs font-medium flex items-center justify-between bg-amber-50 text-amber-800 border border-amber-200";
-                badge.innerHTML = `
-                    <span class="flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-                        وضع التجربة والمحاكاة (بدون API Key)
-                    </span>
-                    <button onclick="toggleSettingsModal(true)" class="underline text-amber-900 hover:text-black">إدخال مفتاح</button>
-                `;
-            }
-        }
-
-        // Speech Recognition Setup
-        function initSpeechRecognition() {
-            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.lang = 'ar-SA';
-                recognition.continuous = true;
-                recognition.interimResults = true;
-
-                recognition.onresult = function(event) {
-                    let transcript = '';
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        transcript += event.results[i][0].transcript;
-                    }
-                    document.getElementById('symptomsText').value = transcript;
-                };
-
-                recognition.onerror = function() {
-                    stopRecording();
-                };
-
-                recognition.onend = function() {
-                    if (isRecording) stopRecording();
-                };
-            }
-        }
-
-        function toggleRecording() {
-            if (!recognition) {
-                alert('عذراً، متصفحك لا يدعم خاصية تحويل الصوت إلى نص مباشرة. يمكنك كتابة الشكوى يدوياً.');
-                return;
-            }
-
-            if (!isRecording) {
-                recognition.start();
-                isRecording = true;
-                document.getElementById('recordBtn').classList.replace('bg-sky-600', 'bg-red-600');
-                document.getElementById('recordBtn').classList.replace('hover:bg-sky-700', 'hover:bg-red-700');
-                document.getElementById('recordText').innerText = 'إيقاف التسجيل';
-                document.getElementById('recordIcon').className = 'fa-solid fa-square';
-                document.getElementById('recordingStatus').classList.remove('hidden');
-            } else {
-                stopRecording();
-            }
-        }
-
-        function stopRecording() {
-            if (recognition) recognition.stop();
+        if (!isRecording) {
+            recognition.start();
+            isRecording = true;
+            recordBtn.classList.add('recording');
+            recordBtn.innerText = "🛑 إيقاف التسجيل";
+            recordStatus.innerText = "جاري استماع الصوت...";
+        } else {
+            recognition.stop();
             isRecording = false;
-            document.getElementById('recordBtn').classList.replace('bg-red-600', 'bg-sky-600');
-            document.getElementById('recordBtn').classList.replace('hover:bg-red-700', 'hover:bg-sky-700');
-            document.getElementById('recordText').innerText = 'بدء التسجيل الصوتي';
-            document.getElementById('recordIcon').className = 'fa-solid fa-microphone';
-            document.getElementById('recordingStatus').classList.add('hidden');
+            recordBtn.classList.remove('recording');
+            recordBtn.innerText = "🎤 بدء التسجيل الصوتي";
+            recordStatus.innerText = "تم حفظ النص الصوتي.";
         }
+    }
 
-        // Image Helpers
-        function previewImage(input, previewId, placeholderId) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(previewId).src = e.target.result;
-                    document.getElementById(previewId).classList.remove('hidden');
-                    document.getElementById(placeholderId).classList.add('hidden');
-                    
-                    if (previewId === 'symptomImgPreview') document.getElementById('removeSymptomImgBtn').classList.remove('hidden');
-                    if (previewId === 'labImgPreview') document.getElementById('removeLabImgBtn').classList.remove('hidden');
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+    function handleImageUpload(event) {
+        const files = event.target.files;
+        const previewContainer = document.getElementById('preview-container');
+        previewContainer.innerHTML = '';
+        base64Images = [];
 
-        function removeImage(inputId, previewId, placeholderId) {
-            document.getElementById(inputId).value = '';
-            document.getElementById(previewId).src = '';
-            document.getElementById(previewId).classList.add('hidden');
-            document.getElementById(placeholderId).classList.remove('hidden');
-
-            if (previewId === 'symptomImgPreview') document.getElementById('removeSymptomImgBtn').classList.add('hidden');
-            if (previewId === 'labImgPreview') document.getElementById('removeLabImgBtn').classList.add('hidden');
-        }
-
-        // Convert Base64 helper for Gemini Payload
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => {
-                    let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
-                    if ((encoded.length % 4) > 0) {
-                        encoded += '='.repeat(4 - (encoded.length % 4));
-                    }
-                    resolve({
-                        data: encoded,
-                        mimeType: file.type
-                    });
-                };
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        // Main Analysis Execution
-        async function processMedicalAnalysis() {
-            const symptoms = document.getElementById('symptomsText').value.trim();
-            const symptomImgFile = document.getElementById('symptomImgInput').files[0];
-            const labImgFile = document.getElementById('labImgInput').files[0];
-            const labNotes = document.getElementById('labNotes').value.trim();
-
-            if (!symptoms && !symptomImgFile && !labImgFile) {
-                alert('يرجى أدخال الشكوى الصوتية/النصية، أو رفع صورة للحالة أو الفحوصات للبدء.');
-                return;
-            }
-
-            // Show Loading
-            document.getElementById('emptyStateCard').classList.add('hidden');
-            document.getElementById('reportContainer').classList.add('hidden');
-            document.getElementById('loadingCard').classList.remove('hidden');
-
-            const apiKey = localStorage.getItem('gemini_api_key');
-
-            if (apiKey) {
-                // Real Gemini API Integration
-                try {
-                    const result = await fetchGeminiAnalysis(apiKey, symptoms, symptomImgFile, labImgFile, labNotes);
-                    displayReport(result);
-                } catch (error) {
-                    console.error(error);
-                    alert('حدث خطأ أثناء الاتصال بالذكاء الاصطناعي. تم التحويل لوضع التجربة.');
-                    displayReport(getMockReport(symptoms, labNotes));
-                }
-            } else {
-                // Simulation Mode Delay
-                setTimeout(() => {
-                    displayReport(getMockReport(symptoms, labNotes));
-                }, 2000);
-            }
-        }
-
-        // API Call Handler
-        async function fetchGeminiAnalysis(apiKey, symptoms, symptomImgFile, labImgFile, labNotes) {
-            const systemPrompt = `أنت مساعد صحي استشاري ذكي. قم بتحليل الشكوى، الصور المرفقة للحالة، والتحاليل الطبية إن وجدت، ثم قدم تقريراً طبعياً منظماً باللغة العربية بتنسيق JSON حصراً.
-            
-            التنسيق المطلوبة في JSON:
-            {
-                "summary": "ملخص شامل ومكثف للأعراض والصور والتحاليل المرصودة",
-                "diagnoses": [
-                    {"condition": "اسم الحالة أو التشخيص المحتمل 1", "probability": "عالية/متوسطة", "reason": "سبب التوقع"},
-                    {"condition": "اسم الحالة أو التشخيص المحتمل 2", "probability": "منخفضة", "reason": "سبب التوقع"}
-                ],
-                "recommendations": [
-                    "نصيحة أو إرشاد علاج أولية 1",
-                    "نصيحة أو علاج عام 2"
-                ],
-                "warnings": "علامات الخطورة ومتى يجب زيارة المستشفى فوراً"
-            }`;
-
-            const parts = [
-                { text: `الشكوى والأعراض: ${symptoms || 'غير محددة نصياً'}\nملاحظات التحاليل: ${labNotes || 'لا توجد'}` }
-            ];
-
-            if (symptomImgFile) {
-                const b64 = await getBase64(symptomImgFile);
-                parts.push({ inlineData: { mimeType: b64.mimeType, data: b64.data } });
-            }
-
-            if (labImgFile) {
-                const b64 = await getBase64(labImgFile);
-                parts.push({ inlineData: { mimeType: b64.mimeType, data: b64.data } });
-            }
-
-            const payload = {
-                contents: [{ parts: parts }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-                generationConfig: {
-                    responseMimeType: "application/json"
-                }
+        for (let file of files) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                base64Images.push(e.target.result);
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'preview-img';
+                previewContainer.appendChild(img);
             };
+            reader.readAsDataURL(file);
+        }
+    }
 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+    async function analyzeHealthState() {
+        const symptoms = document.getElementById('symptoms-text').value.trim();
+        const resultArea = document.getElementById('result-area');
+        const loadingSpinner = document.getElementById('loading-spinner');
 
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+        if (!symptoms && base64Images.length === 0) {
+            alert("يرجى كتابة الشكوى/الأعراض أو رفع صورة على الأقل للتحليل.");
+            return;
+        }
+
+        resultArea.style.display = 'none';
+        loadingSpinner.style.display = 'block';
+
+        const promptText = `
+أنت مساعد طبي ذكي واستشاري. يرجى تحليل الأعراض والصور المرفقة وإعطاء تقرير مبسط باللغة العربية يضم:
+1. الملخص والأعراض المرصودة.
+2. التشخيصات المحتملة (احتمالات أولية).
+3. النصائح والإرشادات الطبية العامة والخطوات القادمة.
+
+أعراض المريض والشكوى:
+${symptoms || "لم يتم إدخال نص، التحليل بناءً على الصور المرفقة فقط."}
+        `;
+
+        const contentPayload = [{ type: "text", text: promptText }];
+
+        base64Images.forEach(imgData => {
+            contentPayload.push({
+                type: "image_url",
+                image_url: { url: imgData }
+            });
+        });
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: MODEL_NAME,
+                    messages: [
+                        { role: "user", content: contentPayload }
+                    ]
+                })
             });
 
             const data = await response.json();
-            const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-            return JSON.parse(jsonText);
-        }
+            loadingSpinner.style.display = 'none';
 
-        // Mock Report Generator for Simulation Mode
-        function getMockReport(symptoms, labNotes) {
-            return {
-                summary: symptoms ? `تم رصد الشكوى الصوتية/النصية: "${symptoms}". كما تم تحليل المؤشرات الظاهرية وصور التحاليل المرفقة.` : "تم تحليل الصور والمستندات الطبية المرفقة بنجاح.",
-                diagnoses: [
-                    { condition: "التهاب مجاري تنفسية علوية / إجهاد عام", probability: "عالية (75%)", reason: "بناءً على الشكوى والأعراض الظاهرية المذكورة." },
-                    { condition: "حساسية طفيفة أو تهيج مؤقت", probability: "متوسطة (40%)", reason: "بناءً على الصور وملاحظات التحاليل المرفقة." }
-                ],
-                recommendations: [
-                    "أخذ قسط كافٍ من الراحة وشرب كميات وافرة من السوائل الدافئة.",
-                    "استخدام مسكنات آمنة عند الحاجة (مثل الباراسيتامول) مع التقيد بالجرعات الموصى بها.",
-                    "مراقبة درجة الحرارة وتجنب التعرض للتيارات الهوائية الباردة."
-                ],
-                warnings: "توجّه فوراً للطوارئ في حال ظهور صعوبة شديدة في التنفس، أو ألم حاد ومستمر في الصدر، أو ارتفاع الحرارة لأكثر من 39 درجة دون استجابة للمخافضات."
-            };
-        }
-
-        // Render Generated Report
-        function displayReport(data) {
-            currentReportData = data;
-            document.getElementById('loadingCard').classList.add('hidden');
-            document.getElementById('reportContainer').classList.remove('hidden');
-
-            document.getElementById('reportDate').innerText = new Date().toLocaleString('ar-SA');
-
-            // 1. Summary
-            document.getElementById('resSummary').innerText = data.summary || 'لا يوجد ملخص متاح.';
-
-            // 2. Diagnoses
-            const diagContainer = document.getElementById('resDiagnoses');
-            diagContainer.innerHTML = '';
-            if (data.diagnoses && data.diagnoses.length > 0) {
-                data.diagnoses.forEach(item => {
-                    diagContainer.innerHTML += `
-                        <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
-                            <div class="flex items-center justify-between mb-1">
-                                <span class="font-bold text-sky-900 text-sm">${item.condition}</span>
-                                <span class="text-xs bg-sky-100 text-sky-800 font-semibold px-2.5 py-0.5 rounded-full">${item.probability}</span>
-                            </div>
-                            <p class="text-xs text-slate-600">${item.reason}</p>
-                        </div>
-                    `;
-                });
+            if (data.choices && data.choices[0]) {
+                resultArea.innerText = data.choices[0].message.content;
+                resultArea.style.display = 'block';
             } else {
-                diagContainer.innerHTML = '<p class="text-xs text-slate-500">لا توجد احتمالات محددة.</p>';
+                resultArea.innerText = "حدث خطأ أثناء معالجة الطلب، يرجى المحاولة لاحقاً.";
+                resultArea.style.display = 'block';
             }
-
-            // 3. Recommendations
-            const recContainer = document.getElementById('resRecommendations');
-            recContainer.innerHTML = '';
-            if (data.recommendations && data.recommendations.length > 0) {
-                data.recommendations.forEach(rec => {
-                    recContainer.innerHTML += `
-                        <div class="flex items-start gap-2 text-xs md:text-sm">
-                            <i class="fa-solid fa-circle-check text-teal-600 mt-1"></i>
-                            <span>${rec}</span>
-                        </div>
-                    `;
-                });
-            }
-
-            // 4. Warnings
-            document.getElementById('resWarnings').innerText = data.warnings || 'لا توجد تنبيهات طوارئ خاصة حالياً.';
+        } catch (error) {
+            console.error("API Error:", error);
+            loadingSpinner.style.display = 'none';
+            resultArea.innerText = "فشل الاتصال بالخادم، يرجى التأكد من الاتصال بالإنترنت ومراجعة الإعدادات.";
+            resultArea.style.display = 'block';
         }
-
-        // History Management
-        function saveReportToHistory() {
-            if (!currentReportData) return;
-
-            let history = JSON.parse(localStorage.getItem('med_history') || '[]');
-            const newEntry = {
-                id: Date.now(),
-                date: new Date().toLocaleString('ar-SA'),
-                data: currentReportData
-            };
-            history.unshift(newEntry);
-            localStorage.setItem('med_history', JSON.stringify(history));
-            alert('تم حفظ التقرير بنجاح في سجل الفحوصات الخاص بك.');
-        }
-
-        function renderHistoryList() {
-            const history = JSON.parse(localStorage.getItem('med_history') || '[]');
-            const listEl = document.getElementById('historyList');
-            listEl.innerHTML = '';
-
-            if (history.length === 0) {
-                listEl.innerHTML = '<p class="text-center text-xs text-slate-500 py-8">لا توجد فحوصات محفوظة سابقاً.</p>';
-                return;
-            }
-
-            history.forEach(item => {
-                listEl.innerHTML += `
-                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between">
-                        <div>
-                            <span class="text-xs font-bold text-sky-700 block mb-1"><i class="fa-regular fa-calendar-check ml-1"></i> ${item.date}</span>
-                            <p class="text-xs text-slate-700 font-semibold line-clamp-1">${item.data.summary}</p>
-                        </div>
-                        <button onclick="loadHistoryItem(${item.id})" class="bg-sky-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold hover:bg-sky-700">عرض</button>
-                    </div>
-                `;
-            });
-        }
-
-        function loadHistoryItem(id) {
-            const history = JSON.parse(localStorage.getItem('med_history') || '[]');
-            const item = history.find(h => h.id === id);
-            if (item) {
-                displayReport(item.data);
-                toggleHistoryModal(false);
-            }
-        }
-
-        function clearHistory() {
-            if (confirm('هل أنت تأكد من رغبتك في مسح كافة الفحوصات المحفوظة؟')) {
-                localStorage.removeItem('med_history');
-                renderHistoryList();
-            }
-        }
-
-        // Export PDF Handler
-        function exportReportPDF() {
-            const element = document.getElementById('reportPrintArea');
-            const opt = {
-                margin:       0.5,
-                filename:     `تقرير-صحي-${Date.now()}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
