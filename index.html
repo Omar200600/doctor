@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المساعد الصحي الذكي - OpenRouter Edition</title>
+    <title>المساعد الصحي الذكي - OpenRouter</title>
     <style>
         :root {
             --primary-color: #0284c7;
@@ -12,7 +12,6 @@
             --card-bg: #ffffff;
             --text-color: #1e293b;
             --border-color: #e2e8f0;
-            --accent-color: #0ea5e9;
         }
 
         body {
@@ -37,13 +36,12 @@
             text-align: center;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         header h1 {
             color: var(--primary-color);
             margin: 0 0 5px 0;
-            font-size: 1.8rem;
         }
 
         .disclaimer-banner {
@@ -62,6 +60,7 @@
             padding: 15px;
             border: 1px solid var(--border-color);
             border-radius: 10px;
+            background-color: #ffffff;
         }
 
         .section h3 {
@@ -79,29 +78,30 @@
             font-weight: bold;
         }
 
-        textarea, input[type="file"] {
+        input[type="text"], input[type="password"], textarea, input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             box-sizing: border-box;
+            font-family: inherit;
         }
 
         .voice-controls {
             display: flex;
             gap: 10px;
             align-items: center;
-            margin-top: 5px;
+            margin-top: 8px;
         }
 
         button {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 10px 18px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             transition: background-color 0.2s;
         }
@@ -122,8 +122,8 @@
         }
 
         .preview-img {
-            max-width: 150px;
-            max-height: 150px;
+            max-width: 120px;
+            max-height: 120px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             object-fit: cover;
@@ -144,6 +144,8 @@
             text-align: center;
             display: none;
             margin: 20px 0;
+            font-weight: bold;
+            color: var(--primary-color);
         }
 
         footer {
@@ -163,16 +165,29 @@
     </header>
 
     <div class="disclaimer-banner">
-        ⚠️ <strong>تنبيه هائم:</strong> هذا التطبيق مخصص للاستخدام الاسترشادي والعائلي الخاص فقط، ولا يغني بأي حال من الأحوال عن تشخيص الطبيب المختص أو مراجعة المراكز الطبية.
+        ⚠️ <strong>تنبيه هام:</strong> هذا التطبيق مخصص للاستخدام الاسترشادي والعائلي الخاص فقط، ولا يغني بأي حال من الأحوال عن تشخيص الطبيب المختص أو مراجعة المراكز الطبية.
+    </div>
+
+    <!-- قسم إدخال وإعداد المفتاح -->
+    <div class="section" style="background-color: #f0fdf4; border-color: #bbf7d0;">
+        <h3 style="color: #166534;">🔑 إعداد مفتاح OpenRouter API</h3>
+        <div class="form-group" style="margin-bottom: 5px;">
+            <label for="api-key-input">أدخل مفتاح API الخاص بك (تبدأ بـ sk-or-v1-...):</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="password" id="api-key-input" placeholder="ألصق مفتاح OpenRouter هنا...">
+                <button onclick="saveApiKey()">حفظ المفتاح</button>
+            </div>
+            <span id="key-status" style="font-size: 0.85rem; color: #15803d; margin-top: 5px; display: block;"></span>
+        </div>
     </div>
 
     <div class="section">
         <h3>1. شكوى المريض (نص أو تسجيل صوتي)</h3>
         <div class="form-group">
-            <textarea id="symptoms-text" rows="4" placeholder="اكتب الأعراض التي تشتكي منها هنا أو استخدم التسجيل الصوتي..."></textarea>
+            <textarea id="symptoms-text" rows="4" placeholder="اكتب الأعراض التي تشتكي منها هنا أو استخدم زر التسجيل الصوتي..."></textarea>
             <div class="voice-controls">
                 <button id="record-btn" onclick="toggleRecording()">🎤 بدء التسجيل الصوتي</button>
-                <span id="record-status" style="font-size: 0.9rem; color: #64748b;"></span>
+                <span id="record-status" style="font-size: 0.85rem; color: #64748b;"></span>
             </div>
         </div>
     </div>
@@ -185,10 +200,10 @@
         </div>
     </div>
 
-    <button style="width: 100%; font-size: 1.1rem;" onclick="analyzeHealthState()">🔍 تشخيص وتحليل الحالة</button>
+    <button style="width: 100%; font-size: 1.1rem; padding: 14px;" onclick="analyzeHealthState()">🔍 تشخيص وتحليل الحالة</button>
 
     <div class="loading" id="loading-spinner">
-        ⏳ جاري تحليل البيانات المرفقة وإعداد التقرير الصحي...
+        ⏳ جاري إرسال البيانات وتحليلها... يرجى الانتظار
     </div>
 
     <div id="result-area"></div>
@@ -199,8 +214,6 @@
 </div>
 
 <script>
-    // OpenRouter Configuration
-    const OPENROUTER_API_KEY = "sk-or-v1-742••••••••••••••••••••54d2"; // تم ضبط المفتاح تلقائياً
     const API_URL = "https://openrouter.ai/api/v1/chat/completions";
     const MODEL_NAME = "google/gemini-2.0-flash-exp:free";
 
@@ -208,7 +221,26 @@
     let isRecording = false;
     let base64Images = [];
 
-    // Web Speech API Configuration
+    // تحميل المفتاح المحفوظ عند فتح الصفحة
+    window.onload = function() {
+        const savedKey = localStorage.getItem('openrouter_api_key');
+        if (savedKey) {
+            document.getElementById('api-key-input').value = savedKey;
+            document.getElementById('key-status').innerText = "✅ تم تحميل المفتاح المحفوظ بنجاح.";
+        }
+    };
+
+    function saveApiKey() {
+        const key = document.getElementById('api-key-input').value.trim();
+        if (key) {
+            localStorage.setItem('openrouter_api_key', key);
+            document.getElementById('key-status').innerText = "✅ تم حفظ المفتاح في ذاكرة المتصفح!";
+        } else {
+            alert("يرجى إدخال المفتاح أولاً.");
+        }
+    }
+
+    // Web Speech API
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
@@ -225,13 +257,13 @@
 
         recognition.onerror = (event) => {
             console.error("Speech Error: ", event.error);
-            document.getElementById('record-status').innerText = "حدث خطأ في التسجيل الصوتى.";
+            document.getElementById('record-status').innerText = "حدث خطأ أثناء التسجيل الصوتي.";
         };
     }
 
     function toggleRecording() {
         if (!recognition) {
-            alert("المتصفح الحالي لا يدعم ميزة تحويل الصوت إلى نص.");
+            alert("المتصفح الحالي لا يدعم ميزة تحويل الصوت إلى نص مباشرة.");
             return;
         }
 
@@ -249,7 +281,7 @@
             isRecording = false;
             recordBtn.classList.remove('recording');
             recordBtn.innerText = "🎤 بدء التسجيل الصوتي";
-            recordStatus.innerText = "تم حفظ النص الصوتي.";
+            recordStatus.innerText = "تم إيقاف التسجيل.";
         }
     }
 
@@ -273,9 +305,15 @@
     }
 
     async function analyzeHealthState() {
+        const apiKey = localStorage.getItem('openrouter_api_key') || document.getElementById('api-key-input').value.trim();
         const symptoms = document.getElementById('symptoms-text').value.trim();
         const resultArea = document.getElementById('result-area');
         const loadingSpinner = document.getElementById('loading-spinner');
+
+        if (!apiKey) {
+            alert("يرجى أدخل مفتاح OpenRouter API الخاص بك وحفظه أولاً.");
+            return;
+        }
 
         if (!symptoms && base64Images.length === 0) {
             alert("يرجى كتابة الشكوى/الأعراض أو رفع صورة على الأقل للتحليل.");
@@ -308,7 +346,7 @@ ${symptoms || "لم يتم إدخال نص، التحليل بناءً على ا
             const response = await fetch(API_URL, {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                    "Authorization": `Bearer ${apiKey}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -325,14 +363,17 @@ ${symptoms || "لم يتم إدخال نص، التحليل بناءً على ا
             if (data.choices && data.choices[0]) {
                 resultArea.innerText = data.choices[0].message.content;
                 resultArea.style.display = 'block';
+            } else if (data.error) {
+                resultArea.innerText = "خطأ من السيرفر: " + (data.error.message || JSON.stringify(data.error));
+                resultArea.style.display = 'block';
             } else {
-                resultArea.innerText = "حدث خطأ أثناء معالجة الطلب، يرجى المحاولة لاحقاً.";
+                resultArea.innerText = "حدث خطأ غير معروف أثناء معالجة الطلب.";
                 resultArea.style.display = 'block';
             }
         } catch (error) {
             console.error("API Error:", error);
             loadingSpinner.style.display = 'none';
-            resultArea.innerText = "فشل الاتصال بالخادم، يرجى التأكد من الاتصال بالإنترنت ومراجعة الإعدادات.";
+            resultArea.innerText = "فشل الاتصال بالخادم. يرجى التأكد من صحة المفتاح والاتصال بالإنترنت.";
             resultArea.style.display = 'block';
         }
     }
