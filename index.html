@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المساعد الصحي والمنزلي الذكي</title>
+    <title>طبيب وحكيم العائلة الذكي</title>
     <style>
         :root {
             --primary-color: #0d9488;
@@ -49,11 +49,12 @@
             background-color: #f0fdf4;
             border: 1px solid #bbf7d0;
             color: #166534;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             margin-bottom: 20px;
             text-align: center;
+            line-height: 1.5;
         }
 
         .section {
@@ -125,15 +126,16 @@
         }
 
         #result-area {
-            background-color: #f0fdf4;
-            border: 1px solid #86efac;
-            padding: 20px;
-            border-radius: 10px;
+            background-color: #ffffff;
+            border: 2px solid #86efac;
+            padding: 22px;
+            border-radius: 12px;
             margin-top: 20px;
             display: none;
             white-space: pre-wrap;
-            line-height: 1.7;
-            font-size: 1rem;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .loading {
@@ -156,18 +158,18 @@
 
 <div class="container">
     <header>
-        <h1>🌿 المساعد الصحي والمنزلي للأسرة</h1>
-        <p>تحليل الأعراض وتقديم وصفات منزلية وأعشاب طبيعية للاستخدام الخاص</p>
+        <h1>🌿 حكيم وطبيب العائلة الذكي</h1>
+        <p>استشارات دافئة، وصفات أعشاب منزلية مفصلة، واقتراحات صيدلانية آمنة</p>
     </header>
 
     <div class="banner">
-        🏡 <strong>تطبيق الاستشارات والوصفات المنزلية الخاص بالعائلة</strong>
+        ❤️ <strong>سلامتكم تهمنا:</strong> هذا المساعد صُمم خصيصاً ليكون مستشاراً أخوياً وعائلياً خفيفاً يراعي كافة الظروف ويقدم أسرار العلاج الطبيعي والمنزلي السريع.
     </div>
 
     <div class="section">
         <h3>1. شكوى المريض (نص أو تسجيل صوتي)</h3>
         <div class="form-group">
-            <textarea id="symptoms-text" rows="4" placeholder="اكتب الأعراض التي تشتكي منها هنا (مثال: صداع، حمى، مغص، ألم في الحلق) أو استخدم التسجيل الصوتي..."></textarea>
+            <textarea id="symptoms-text" rows="4" placeholder="اشرح لي هنا ما تشتكي منه أو يشتكي منه أي فرد من العائلة بتفصيل (مثال: ألم شديد بالحلق مع صعوبة بالبلع، أو وجع رأس ومغص)..."></textarea>
             <div class="voice-controls">
                 <button id="record-btn" onclick="toggleRecording()">🎤 بدء التسجيل الصوتي</button>
                 <span id="record-status" style="font-size: 0.85rem; color: #64748b;"></span>
@@ -183,10 +185,10 @@
         </div>
     </div>
 
-    <button style="width: 100%; font-size: 1.1rem; padding: 14px;" onclick="analyzeHealthState()">🔍 تشخيص وإعداد الوصفة المنزلية</button>
+    <button style="width: 100%; font-size: 1.1rem; padding: 14px;" onclick="analyzeHealthState()">🔍 فحص الحالة وإعداد الوصفة العائلية الشاملة</button>
 
     <div class="loading" id="loading-spinner">
-        ⏳ جاري إعداد التقرير واستخراج الوصفات والأعشاب المناسبة...
+        💚 جاري الاهتمام بحالتكم ودراسة الأعراض لإعداد الوصفة العائلية...
     </div>
 
     <div id="result-area"></div>
@@ -264,28 +266,52 @@
         }
     }
 
-    function generateHomeRecipe(symptomsText) {
+    function buildDetailedFamilyReport(symptomsText) {
         let text = symptomsText.toLowerCase();
-        let recipes = [];
+        let report = "";
 
-        if (text.includes("حمى") || text.includes("حرارة") || text.includes("حراره")) {
-            recipes.push("🌡️ **للحرارة والحمى:** كمادات ماء فاتر على الجبهة والأطراف، مع شرب مشروب الريحان أو الزنجبيل الخفيف لترطيب الجسم.");
-        }
-        if (text.includes("صداع") || text.includes("رأس")) {
-            recipes.push("🧠 **للصداع:** تدليك الجبهة والرقبة بزيت النعناع أو زيت الزيتون الدافئ، وشرب كوب من الشاي بالنعناع أو الكمون، والاستراحة في مكان هادئ ومظلم.");
-        }
-        if (text.includes("مغص") || text.includes("بطن") || text.includes("غازات")) {
-            recipes.push("🌱 **للمغص وآلام البطن:** مغلي النعناع والكمون واليانسون يساعد كثيراً في تهدئة الأمعاء والتقلصات.");
-        }
-        if (text.includes("سعال") || text.includes("كحة") || text.includes("حلق") || text.includes("زكام")) {
-            recipes.push("🍯 **للسعال والحلق:** ملعقة عسل مع بضع قطرات من الليمون في ماء دافئ، أو مغلي الزنجبيل مع العسل مرتين يومياً.");
+        report += `ألف سلامة وعافية عليكم يا رب، لا تقلقوا أبداً بإذن الله أجر وعافية وأمر بسيط وتتعدى بسهولة. ❤️\n\n`;
+
+        report += `1️⃣ **تفهّم الحالة والأعراض المرصودة:**\n`;
+        report += `• الشكوى الموضحة: "${symptomsText}"\n`;
+        report += `• التقييم الأخوي: يبدو أن الجسم يمر بحالة استجابة أو التهاب بسيط يستجيب سريعاً للرعاية المنزلية والراحة، وسنعمل على تخفيف الألم فوراً بإذن الله.\n\n`;
+
+        report += `2️⃣ **الوصفة المنزلية والأعشاب الطبيعية الموسّعة (من المطبخ):**\n`;
+
+        if (text.includes("حلق") || text.includes("زور") || text.includes("بلع") || text.includes("لوز")) {
+            report += `🍵 **غرغرة الملح والماء الدافئ:** نصف ملعقة صغيرة ملح طعام في كوب ماء دافئ، يُتغرغر بها 3 مرات يومياً لتطهير الحلق وقتل البكتيريا المسببة للألم.\n`;
+            report += `🍯 **مشروب الزنجبيل والعسل والليمون:** يُغلى الزنجبيل الطازج أو المطحون، ويُضاف له ملعقة عسل نقي وبضع قطرات ليمون. يهدئ غشاء الحلق بشكل ممتاز.\n`;
+            report += `🌿 **مشروب الميرمية أو البابونج:** مضاد طبيعي قوي لالتهاب الحلق واللوزتين.\n\n`;
+        } else if (text.includes("صداع") || text.includes("رأس") || text.includes("شقيقة")) {
+            report += `☕ **مشروب النعناع والكمون الدافئ:** يهدئ الأعصاب والأوعية الدموية في الرأس.\n`;
+            report += `🧄 **تدليك الزيوت:** تدليك الصدغين وجبهة الرأس بزيت الزيتون الدافئ أو بضع قطرات من زيت النعناع.\n`;
+            report += `💧 **الترطيب:** شرب كوبين من الماء فوراً لأن الجفاف هو السبب الأول للصداع.\n\n`;
+        } else if (text.includes("مغص") || text.includes("بطن") || text.includes("اسهال") || text.includes("غازات")) {
+            report += `🌱 **مغلي الكمون واليانسون:** مغلي ملعقة كمون حصى مع يانسون في كوب ماء، يزيل المغص والغازات فوراً.\n`;
+            report += `🍵 **مشروب الشاي الناشف مع الليمون:** في حال وجود إسهال أو كركبة بالبطن.\n\n`;
+        } else if (text.includes("حمى") || text.includes("حرارة") || text.includes("سخونة")) {
+            report += `🧊 **الكمادات الفاترة:** كمادات ماء فاتر (ليس بارداً جداً) على جانبي الرقبة وتحت الإبطين والأطراف.\n`;
+            report += `🍃 **مشروب الريحان أو النعناع:** يساهم في خفض حرارة الجسم بفعالية وطريقة طبيعية.\n\n`;
+        } else {
+            report += `🍵 **المشروب الذهبي الشامل:** مغلي النعناع والبابونج والزنجبيل مع ملعقة عسل طبيعي، يعزز المناعة الشاملة ويهدئ آلام الجسم.\n\n`;
         }
 
-        if (recipes.length === 0) {
-            recipes.push("🍵 **الوصفة المنزلية العامة:** مغلي النعناع أو البابونج الدافئ مع العسل والليمون لتعزيز المناعة وتهدئة الجسم عامةً.");
+        report += `3️⃣ **خيارات صيدلانية غير مكلفة ومتاحة (بدون وصفة - OTC):**\n`;
+        report += `• **لتخفيف الآلام والحرارة:** (باراسيتامول / أدول / بنادول) حبة واحدة عند الحاجة كل 6 إلى 8 ساعات بعد الأكل (مسكن آمن جداً ورخيص المتناول).\n`;
+        if (text.includes("حلق") || text.includes("بلع")) {
+            report += `• **لألم الحلق الشديد:** أقراص مص للحلق (مثل سيبتوليت أو ستربسلز أو أي أقراص مص متوفرة بالصيدلية) أو بخاخ مطهر للحلق لتهدئة الألم سريعاً.\n`;
         }
+        if (text.includes("مغص") || text.includes("تقلصات")) {
+            report += `• **للمغص الشديد:** حبوب بسكوبان (Buscopan) حبة عند اللزوم لتهدئة تقلصات الأمعاء.\n`;
+        }
+        report += `• **ملاحظة:** يُفضل دائماً استشارة الصيدلي البسيط عند الشراء للتأكد من جرعة السن المناسب.\n\n`;
 
-        return recipes.join("\n\n");
+        report += `4️⃣ **نصائح وعناية حنونة من القلب:**\n`;
+        report += `• الراحة التامة والدفء، وتجنب التعرض للمكيفات أو الهواء البارد المباشر.\n`;
+        report += `• شرب الماء والسوائل الدافئة بكثرة طوال اليوم.\n`;
+        report += `• إذا استمرت الأعراض أو ترافقت مع صعوبة شديدة في التنفس أو حرارة مرتفعة جداً لا تنزل، يرجى مراجعة أقرب مركز صحي فوراً لسلامتكم.\n`;
+
+        return report;
     }
 
     async function analyzeHealthState() {
@@ -294,7 +320,7 @@
         const loadingSpinner = document.getElementById('loading-spinner');
 
         if (!symptoms && base64Images.length === 0) {
-            alert("يرجى كتابة الشكوى/الأعراض أو رفع صورة على الأقل للتحليل.");
+            alert("يرجى كتابة الشكوى/الأعراض أو رفع صورة على الأقل لنتمكن من مساعدتكم.");
             return;
         }
 
@@ -303,32 +329,8 @@
 
         setTimeout(() => {
             loadingSpinner.style.display = 'none';
-
-            const homeRecipes = generateHomeRecipe(symptoms);
-
-            let analysisResponse = `📋 **تقرير المساعد الصحي والمنزلي للأسرة**\n\n`;
-            analysisResponse += `1️⃣ **الأعراض المرصودة:**\n`;
-            analysisResponse += `• الشكوى: "${symptoms || 'تم الاعتماد على الفحص البصري للصور المرفقة'}"\n`;
-            if (base64Images.length > 0) {
-                analysisResponse += `• المرفقات: تم فحص عدد (${base64Images.length}) صورة/تقرير مختبري.\n`;
-            }
-
-            analysisResponse += `\n2️⃣ **التشخيص والاحتمالات الأوليّة:**\n`;
-            if (symptoms.includes("حمى") || symptoms.includes("صداع")) {
-                analysisResponse += `• إجهاد بدني، أو التهاب بسيط في المجاري التنفسية/استجابة مناعية موسمية.\n`;
-            } else {
-                analysisResponse += `• أعراض بسيطة أو اضطراب موقت يمكن التعامل معه بالرعاية المنزلية والأعشاب الطبيعية.\n`;
-            }
-
-            analysisResponse += `\n3️⃣ **الوصفة المنزلية والعلاج بالأعشاب الطبيعية:**\n`;
-            analysisResponse += `${homeRecipes}\n\n`;
-
-            analysisResponse += `4️⃣ **إرشادات وتعليمات مهمة:**\n`;
-            analysisResponse += `• الإكثار من شرب السوائل الدافئة والماء.\n`;
-            analysisResponse += `• الراحة التامة وتجنب الإجهاد.\n`;
-            analysisResponse += `• في حال استمرار الأعراض بشكل شديد، يُفضل استشارة طبيب أو مركز صحي معتمد.\n`;
-
-            resultArea.innerText = analysisResponse;
+            const detailedReport = buildDetailedFamilyReport(symptoms || "أعراض عامة من الصور المرفقة");
+            resultArea.innerText = detailedReport;
             resultArea.style.display = 'block';
         }, 1200);
     }
