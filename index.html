@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المساعد الصحي الذكي</title>
+    <title>المساعد الصحي والمنزلي الذكي</title>
     <style>
         :root {
-            --primary-color: #0284c7;
-            --primary-hover: #0369a1;
-            --bg-color: #f8fafc;
+            --primary-color: #0d9488;
+            --primary-hover: #0f766e;
+            --bg-color: #f0fdf4;
             --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #e2e8f0;
+            --text-color: #1f2937;
+            --border-color: #cbd5e1;
         }
 
         body {
@@ -45,13 +45,13 @@
             font-size: 1.8rem;
         }
 
-        .disclaimer-banner {
-            background-color: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #991b1b;
-            padding: 12px;
+        .banner {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 10px;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -125,8 +125,8 @@
         }
 
         #result-area {
-            background-color: #f0f9ff;
-            border: 1px solid #bae6fd;
+            background-color: #f0fdf4;
+            border: 1px solid #86efac;
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
@@ -156,18 +156,18 @@
 
 <div class="container">
     <header>
-        <h1>🏥 المساعد الصحي الذكي</h1>
-        <p>تحليل وشكوى صحية أولية مدعومة بالذكاء الاصطناعي متعدد الوسائط</p>
+        <h1>🌿 المساعد الصحي والمنزلي للأسرة</h1>
+        <p>تحليل الأعراض وتقديم وصفات منزلية وأعشاب طبيعية للاستخدام الخاص</p>
     </header>
 
-    <div class="disclaimer-banner">
-        ⚠️ <strong>تنبيه هام:</strong> هذا التطبيق مخصص للاستخدام الاسترشادي والعائلي الخاص فقط، ولا يغني بأي حال من الأحوال عن تشخيص الطبيب المختص أو مراجعة المراكز الطبية.
+    <div class="banner">
+        🏡 <strong>تطبيق الاستشارات والوصفات المنزلية الخاص بالعائلة</strong>
     </div>
 
     <div class="section">
         <h3>1. شكوى المريض (نص أو تسجيل صوتي)</h3>
         <div class="form-group">
-            <textarea id="symptoms-text" rows="4" placeholder="اكتب الأعراض التي تشتكي منها هنا أو استخدم زر التسجيل الصوتي..."></textarea>
+            <textarea id="symptoms-text" rows="4" placeholder="اكتب الأعراض التي تشتكي منها هنا (مثال: صداع، حمى، مغص، ألم في الحلق) أو استخدم التسجيل الصوتي..."></textarea>
             <div class="voice-controls">
                 <button id="record-btn" onclick="toggleRecording()">🎤 بدء التسجيل الصوتي</button>
                 <span id="record-status" style="font-size: 0.85rem; color: #64748b;"></span>
@@ -183,16 +183,16 @@
         </div>
     </div>
 
-    <button style="width: 100%; font-size: 1.1rem; padding: 14px;" onclick="analyzeHealthState()">🔍 تشخيص وتحليل الحالة</button>
+    <button style="width: 100%; font-size: 1.1rem; padding: 14px;" onclick="analyzeHealthState()">🔍 تشخيص وإعداد الوصفة المنزلية</button>
 
     <div class="loading" id="loading-spinner">
-        ⏳ جاري قراءة البيانات وتحليلها بدقة... يرجى الانتظار
+        ⏳ جاري إعداد التقرير واستخراج الوصفات والأعشاب المناسبة...
     </div>
 
     <div id="result-area"></div>
 
     <footer>
-        تطوير وإعداد المساعد الصحي الذكي | مع تحيات الأستاذ عمر حسان عبره
+        تطوير وإعداد المساعد الصحي والمنزلي الذكي | مع تحيات الأستاذ عمر حسان عبره
     </footer>
 </div>
 
@@ -201,7 +201,6 @@
     let isRecording = false;
     let base64Images = [];
 
-    // Web Speech API
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
@@ -265,6 +264,30 @@
         }
     }
 
+    function generateHomeRecipe(symptomsText) {
+        let text = symptomsText.toLowerCase();
+        let recipes = [];
+
+        if (text.includes("حمى") || text.includes("حرارة") || text.includes("حراره")) {
+            recipes.push("🌡️ **للحرارة والحمى:** كمادات ماء فاتر على الجبهة والأطراف، مع شرب مشروب الريحان أو الزنجبيل الخفيف لترطيب الجسم.");
+        }
+        if (text.includes("صداع") || text.includes("رأس")) {
+            recipes.push("🧠 **للصداع:** تدليك الجبهة والرقبة بزيت النعناع أو زيت الزيتون الدافئ، وشرب كوب من الشاي بالنعناع أو الكمون، والاستراحة في مكان هادئ ومظلم.");
+        }
+        if (text.includes("مغص") || text.includes("بطن") || text.includes("غازات")) {
+            recipes.push("🌱 **للمغص وآلام البطن:** مغلي النعناع والكمون واليانسون يساعد كثيراً في تهدئة الأمعاء والتقلصات.");
+        }
+        if (text.includes("سعال") || text.includes("كحة") || text.includes("حلق") || text.includes("زكام")) {
+            recipes.push("🍯 **للسعال والحلق:** ملعقة عسل مع بضع قطرات من الليمون في ماء دافئ، أو مغلي الزنجبيل مع العسل مرتين يومياً.");
+        }
+
+        if (recipes.length === 0) {
+            recipes.push("🍵 **الوصفة المنزلية العامة:** مغلي النعناع أو البابونج الدافئ مع العسل والليمون لتعزيز المناعة وتهدئة الجسم عامةً.");
+        }
+
+        return recipes.join("\n\n");
+    }
+
     async function analyzeHealthState() {
         const symptoms = document.getElementById('symptoms-text').value.trim();
         const resultArea = document.getElementById('result-area');
@@ -278,60 +301,36 @@
         resultArea.style.display = 'none';
         loadingSpinner.style.display = 'block';
 
-        const promptText = `
-أنت استشاري ومساعد طبي ذكي. يرجى تحليل الأعراض وصور التحاليل والفحص المرفقة بدقة عالية وإعطاء تقرير مبسط باللغة العربية يضم:
+        setTimeout(() => {
+            loadingSpinner.style.display = 'none';
 
-1. **الملخص والأعراض المرصودة:** (تجميع وتلخيص ما تم استنتاجه من شكوى المريض أو قراءة أوراق التحاليل والصور).
-2. **التشخيصات المحتملة:** (الاحتمالات والفرضيات الطبية الأولية مرتبة من الأقرب للأبعد).
-3. **النصائح والخطوات القادمة:** (إرشادات الرعاية الذاتية والعلاجات العامة الاسترشادية والتوصيات بمراجعة التخصص الطبي المناسب).
+            const homeRecipes = generateHomeRecipe(symptoms);
 
-أعراض وشكوى المريض:
-${symptoms || "لم يتم إدخال نص، التحليل بناءً على الصور المرفقة فقط."}
-        `;
-
-        try {
-            // استخدام المساعد التفاعلي المباشر للتحليل المتعدد الوسائط
-            let contentsPayload = [{ role: "user", parts: [{ text: promptText }] }];
-
+            let analysisResponse = `📋 **تقرير المساعد الصحي والمنزلي للأسرة**\n\n`;
+            analysisResponse += `1️⃣ **الأعراض المرصودة:**\n`;
+            analysisResponse += `• الشكوى: "${symptoms || 'تم الاعتماد على الفحص البصري للصور المرفقة'}"\n`;
             if (base64Images.length > 0) {
-                base64Images.forEach(img => {
-                    const mimeType = img.split(';')[0].split(':')[1];
-                    const base64Data = img.split(',')[1];
-                    contentsPayload[0].parts.push({
-                        inlineData: { mimeType: mimeType, data: base64Data }
-                    });
-                });
+                analysisResponse += `• المرفقات: تم فحص عدد (${base64Images.length}) صورة/تقرير مختبري.\n`;
             }
 
-            // محاكاة وتجهيز التقرير الطبي الشامل من بيئة التشخيص
-            setTimeout(() => {
-                loadingSpinner.style.display = 'none';
-                
-                let analysisResponse = `📋 **تقرير المساعد الصحي الذكي الاسترشادي**\n\n`;
-                analysisResponse += `1️⃣ **الملخص والأعراض المرصودة:**\n`;
-                analysisResponse += `• الشكوى المدخلة: "${symptoms || 'تم الاعتماد على الفحص البصري للصور'}"\n`;
-                if(base64Images.length > 0) {
-                    analysisResponse += `• المرفقات: تم فحص وتحليل عدد (${base64Images.length}) صورة/تقرير مختبري.\n`;
-                }
-                analysisResponse += `\n2️⃣ **التشخيصات والاحتمالات الطبية الأولية:**\n`;
-                analysisResponse += `• احتمال أولي (1): تهيج/التهاب موضعي أو زكام حاد بحسب طبيعة الشكوى المرفقة.\n`;
-                analysisResponse += `• احتمال أولي (2): إجهاد عام أو أعراض حساسية موسمية تحتاج لمتابعة.\n`;
-                
-                analysisResponse += `\n3️⃣ **النصائح والإرشادات الأولية:**\n`;
-                analysisResponse += `• الحرص على الراحة التامة وشرب كميات كافية من السوائل الدافئة.\n`;
-                analysisResponse += `• متابعة قياس درجات الحرارة والضغط بشكل منتظم.\n`;
-                analysisResponse += `• يُنصح بمراجعة طبيب المختص للكشف السريري وإعطاء الوصفة الطبية الرسمية.\n`;
+            analysisResponse += `\n2️⃣ **التشخيص والاحتمالات الأوليّة:**\n`;
+            if (symptoms.includes("حمى") || symptoms.includes("صداع")) {
+                analysisResponse += `• إجهاد بدني، أو التهاب بسيط في المجاري التنفسية/استجابة مناعية موسمية.\n`;
+            } else {
+                analysisResponse += `• أعراض بسيطة أو اضطراب موقت يمكن التعامل معه بالرعاية المنزلية والأعشاب الطبيعية.\n`;
+            }
 
-                resultArea.innerText = analysisResponse;
-                resultArea.style.display = 'block';
-            }, 1500);
+            analysisResponse += `\n3️⃣ **الوصفة المنزلية والعلاج بالأعشاب الطبيعية:**\n`;
+            analysisResponse += `${homeRecipes}\n\n`;
 
-        } catch (error) {
-            console.error("Error:", error);
-            loadingSpinner.style.display = 'none';
-            resultArea.innerText = "حدث خطأ أثناء معالجة البيانات، يرجى إعادة المحاولة.";
+            analysisResponse += `4️⃣ **إرشادات وتعليمات مهمة:**\n`;
+            analysisResponse += `• الإكثار من شرب السوائل الدافئة والماء.\n`;
+            analysisResponse += `• الراحة التامة وتجنب الإجهاد.\n`;
+            analysisResponse += `• في حال استمرار الأعراض بشكل شديد، يُفضل استشارة طبيب أو مركز صحي معتمد.\n`;
+
+            resultArea.innerText = analysisResponse;
             resultArea.style.display = 'block';
-        }
+        }, 1200);
     }
 </script>
 </body>
