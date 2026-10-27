@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طبيب وحكيم العائلة الذكي</title>
+    <title>طبيب وحكيم العائلة الذكي - المطور: عمر حسان</title>
     <style>
         :root {
             --primary-color: #0d9488;
@@ -46,15 +46,15 @@
         }
 
         .banner {
-            background-color: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            color: #166534;
+            background-color: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #9f1239;
             padding: 12px;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-bottom: 20px;
-            text-align: center;
-            line-height: 1.5;
+            text-align: right;
+            line-height: 1.6;
         }
 
         .section {
@@ -74,20 +74,13 @@
             margin-bottom: 15px;
         }
 
-        textarea, input[type="file"] {
+        textarea, input[type="text"], input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             box-sizing: border-box;
             font-family: inherit;
-        }
-
-        .voice-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 8px;
         }
 
         button {
@@ -100,29 +93,11 @@
             font-size: 1rem;
             font-weight: bold;
             transition: background-color 0.2s;
+            width: 100%;
         }
 
         button:hover {
             background-color: var(--primary-hover);
-        }
-
-        button.recording {
-            background-color: #dc2626;
-        }
-
-        .preview-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .preview-img {
-            max-width: 130px;
-            max-height: 130px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            object-fit: cover;
         }
 
         #result-area {
@@ -159,181 +134,62 @@
 <div class="container">
     <header>
         <h1>🌿 حكيم وطبيب العائلة الذكي</h1>
-        <p>استشارات دافئة، وصفات أعشاب منزلية مفصلة، واقتراحات صيدلانية آمنة</p>
+        <p>استشارات دافئة، وصفات أعشاب منزلية، واقتراحات توجيهية آمنة</p>
     </header>
 
+    <!-- إخلاء المسؤولية القانونية والعلمية لحماية المشروع وضمان الأمانة العلمية -->
     <div class="banner">
-        ❤️ <strong>سلامتكم تهمنا:</strong> هذا المساعد صُمم خصيصاً ليكون مستشاراً أخوياً وعائلياً خفيفاً يراعي كافة الظروف ويقدم أسرار العلاج الطبيعي والمنزلي السريع.
+        ⚠️ <strong>إخلاء مسؤولية هام:</strong> هذا التطبيق أداة توجيهية واستئناس منزلي أولي تعتمد على الذكاء الاصطناعي، و**ليست** بديلاً نهائياً عن استشارة الطبيب البشري المختص أو التشخيص السريري المعتمد. في الحالات الطارئة أو الخطيرة، يرجى مراجعة المستشفى فوراً.
     </div>
 
     <div class="section">
-        <h3>1. شكوى المريض (نص أو تسجيل صوتي)</h3>
+        <h3>🔑 مفتاح الذكاء الاصطناعي (API Key)</h3>
         <div class="form-group">
-            <textarea id="symptoms-text" rows="4" placeholder="اشرح لي هنا ما تشتكي منه أو يشتكي منه أي فرد من العائلة بتفصيل (مثال: ألم شديد بالحلق مع صعوبة بالبلع، أو وجع رأس ومغص)..."></textarea>
-            <div class="voice-controls">
-                <button id="record-btn" onclick="toggleRecording()">🎤 بدء التسجيل الصوتي</button>
-                <span id="record-status" style="font-size: 0.85rem; color: #64748b;"></span>
-            </div>
+            <input type="text" id="api-key-input" value="AQ.Ab8RN6J1YlMPwHYXeS7nkaDAfEMRCQPBnXpv2dVDi85O3FNBIg" placeholder="مفتاح Google AI Studio...">
         </div>
     </div>
 
     <div class="section">
-        <h3>2. رفع صور (الفحص الظاهري / الفحوصات والتحاليل)</h3>
+        <h3>1. شكوى المريض والأعراض</h3>
         <div class="form-group">
-            <input type="file" id="image-input" accept="image/*" multiple onchange="handleImageUpload(event)">
-            <div class="preview-container" id="preview-container"></div>
+            <textarea id="symptoms-text" rows="4" placeholder="اكتب هنا ما تشتكي منه أو يشتكي منه أي فرد من العائلة بتفصيل (مثال: ألم بالحلق، صداع، ارتفاع حرارة)..."></textarea>
         </div>
     </div>
 
-    <button style="width: 100%; font-size: 1.1rem; padding: 14px;" onclick="analyzeHealthState()">🔍 فحص الحالة وإعداد الوصفة العائلية الشاملة</button>
+    <button onclick="analyzeHealthState()">🔍 فحص الحالة بالذكاء الاصطناعي وإعداد التوجيه المنزلي</button>
 
     <div class="loading" id="loading-spinner">
-        💚 جاري الاهتمام بحالتكم ودراسة الأعراض لإعداد الوصفة العائلية...
+        💚 جاري التواصل مع محرك الذكاء الاصطناعي لدراسة الحالة بعناية...
     </div>
 
     <div id="result-area"></div>
 
     <footer>
-        تطوير وإعداد المساعد الصحي والمنزلي الذكي | مع تحيات الأستاذ عمر حسان عبره
+        تطوير وإعداد المساعد الصحي والمنزلي الذكي | الأستاذ عمر حسن عبره
     </footer>
 </div>
 
 <script>
-    let recognition;
-    let isRecording = false;
-    let base64Images = [];
-
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-        recognition.lang = 'ar-SA';
-        recognition.continuous = true;
-
-        recognition.onresult = (event) => {
-            let transcript = '';
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-                transcript += event.results[i][0].transcript;
-            }
-            document.getElementById('symptoms-text').value += ' ' + transcript;
-        };
-
-        recognition.onerror = (event) => {
-            console.error("Speech Error: ", event.error);
-            document.getElementById('record-status').innerText = "حدث خطأ أثناء التسجيل الصوتي.";
-        };
-    }
-
-    function toggleRecording() {
-        if (!recognition) {
-            alert("المتصفح الحالي لا يدعم ميزة تحويل الصوت إلى نص مباشرة.");
-            return;
-        }
-
-        const recordBtn = document.getElementById('record-btn');
-        const recordStatus = document.getElementById('record-status');
-
-        if (!isRecording) {
-            recognition.start();
-            isRecording = true;
-            recordBtn.classList.add('recording');
-            recordBtn.innerText = "🛑 إيقاف التسجيل";
-            recordStatus.innerText = "جاري استماع الصوت...";
-        } else {
-            recognition.stop();
-            isRecording = false;
-            recordBtn.classList.remove('recording');
-            recordBtn.innerText = "🎤 بدء التسجيل الصوتي";
-            recordStatus.innerText = "تم حفظ التسجيل الصوتي بنجاح.";
-        }
-    }
-
-    function handleImageUpload(event) {
-        const files = event.target.files;
-        const previewContainer = document.getElementById('preview-container');
-        previewContainer.innerHTML = '';
-        base64Images = [];
-
-        for (let file of files) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                base64Images.push(e.target.result);
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'preview-img';
-                previewContainer.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function buildDetailedFamilyReport(symptomsText) {
-        let text = symptomsText.toLowerCase();
-        let report = "";
-
-        report += `ألف سلامة وعافية عليكم يا رب، لا تقلقوا أبداً بإذن الله أجر وعافية وأمر بسيط وتتعدى بسهولة. ❤️\n\n`;
-
-        report += `1️⃣ **تفهّم الحالة والأعراض المرصودة:**\n`;
-        report += `• الشكوى الموضحة: "${symptomsText}"\n`;
-        report += `• التقييم الأخوي: يبدو أن الجسم يمر بحالة استجابة أو التهاب بسيط يستجيب سريعاً للرعاية المنزلية والراحة، وسنعمل على تخفيف الألم فوراً بإذن الله.\n\n`;
-
-        report += `2️⃣ **الوصفة المنزلية والأعشاب الطبيعية الموسّعة (من المطبخ):**\n`;
-
-        if (text.includes("حلق") || text.includes("زور") || text.includes("بلع") || text.includes("لوز")) {
-            report += `🍵 **غرغرة الملح والماء الدافئ:** نصف ملعقة صغيرة ملح طعام في كوب ماء دافئ، يُتغرغر بها 3 مرات يومياً لتطهير الحلق وقتل البكتيريا المسببة للألم.\n`;
-            report += `🍯 **مشروب الزنجبيل والعسل والليمون:** يُغلى الزنجبيل الطازج أو المطحون، ويُضاف له ملعقة عسل نقي وبضع قطرات ليمون. يهدئ غشاء الحلق بشكل ممتاز.\n`;
-            report += `🌿 **مشروب الميرمية أو البابونج:** مضاد طبيعي قوي لالتهاب الحلق واللوزتين.\n\n`;
-        } else if (text.includes("صداع") || text.includes("رأس") || text.includes("شقيقة")) {
-            report += `☕ **مشروب النعناع والكمون الدافئ:** يهدئ الأعصاب والأوعية الدموية في الرأس.\n`;
-            report += `🧄 **تدليك الزيوت:** تدليك الصدغين وجبهة الرأس بزيت الزيتون الدافئ أو بضع قطرات من زيت النعناع.\n`;
-            report += `💧 **الترطيب:** شرب كوبين من الماء فوراً لأن الجفاف هو السبب الأول للصداع.\n\n`;
-        } else if (text.includes("مغص") || text.includes("بطن") || text.includes("اسهال") || text.includes("غازات")) {
-            report += `🌱 **مغلي الكمون واليانسون:** مغلي ملعقة كمون حصى مع يانسون في كوب ماء، يزيل المغص والغازات فوراً.\n`;
-            report += `🍵 **مشروب الشاي الناشف مع الليمون:** في حال وجود إسهال أو كركبة بالبطن.\n\n`;
-        } else if (text.includes("حمى") || text.includes("حرارة") || text.includes("سخونة")) {
-            report += `🧊 **الكمادات الفاترة:** كمادات ماء فاتر (ليس بارداً جداً) على جانبي الرقبة وتحت الإبطين والأطراف.\n`;
-            report += `🍃 **مشروب الريحان أو النعناع:** يساهم في خفض حرارة الجسم بفعالية وطريقة طبيعية.\n\n`;
-        } else {
-            report += `🍵 **المشروب الذهبي الشامل:** مغلي النعناع والبابونج والزنجبيل مع ملعقة عسل طبيعي، يعزز المناعة الشاملة ويهدئ آلام الجسم.\n\n`;
-        }
-
-        report += `3️⃣ **خيارات صيدلانية غير مكلفة ومتاحة (بدون وصفة - OTC):**\n`;
-        report += `• **لتخفيف الآلام والحرارة:** (باراسيتامول / أدول / بنادول) حبة واحدة عند الحاجة كل 6 إلى 8 ساعات بعد الأكل (مسكن آمن جداً ورخيص المتناول).\n`;
-        if (text.includes("حلق") || text.includes("بلع")) {
-            report += `• **لألم الحلق الشديد:** أقراص مص للحلق (مثل سيبتوليت أو ستربسلز أو أي أقراص مص متوفرة بالصيدلية) أو بخاخ مطهر للحلق لتهدئة الألم سريعاً.\n`;
-        }
-        if (text.includes("مغص") || text.includes("تقلصات")) {
-            report += `• **للمغص الشديد:** حبوب بسكوبان (Buscopan) حبة عند اللزوم لتهدئة تقلصات الأمعاء.\n`;
-        }
-        report += `• **ملاحظة:** يُفضل دائماً استشارة الصيدلي البسيط عند الشراء للتأكد من جرعة السن المناسب.\n\n`;
-
-        report += `4️⃣ **نصائح وعناية حنونة من القلب:**\n`;
-        report += `• الراحة التامة والدفء، وتجنب التعرض للمكيفات أو الهواء البارد المباشر.\n`;
-        report += `• شرب الماء والسوائل الدافئة بكثرة طوال اليوم.\n`;
-        report += `• إذا استمرت الأعراض أو ترافقت مع صعوبة شديدة في التنفس أو حرارة مرتفعة جداً لا تنزل، يرجى مراجعة أقرب مركز صحي فوراً لسلامتكم.\n`;
-
-        return report;
-    }
-
     async function analyzeHealthState() {
+        const apiKey = document.getElementById('api-key-input').value.trim();
         const symptoms = document.getElementById('symptoms-text').value.trim();
         const resultArea = document.getElementById('result-area');
         const loadingSpinner = document.getElementById('loading-spinner');
 
-        if (!symptoms && base64Images.length === 0) {
-            alert("يرجى كتابة الشكوى/الأعراض أو رفع صورة على الأقل لنتمكن من مساعدتكم.");
+        if (!apiKey) {
+            alert("يرجى التأكد من وجود مفتاح API في الخانة المخصصة بالأعلى.");
+            return;
+        }
+
+        if (!symptoms) {
+            alert("يرجى كتابة الشكوى أو الأعراض لنتمكن من مساعدتكم.");
             return;
         }
 
         resultArea.style.display = 'none';
         loadingSpinner.style.display = 'block';
 
-        setTimeout(() => {
-            loadingSpinner.style.display = 'none';
-            const detailedReport = buildDetailedFamilyReport(symptoms || "أعراض عامة من الصور المرفقة");
-            resultArea.innerText = detailedReport;
-            resultArea.style.display = 'block';
-        }, 1200);
-    }
-</script>
-</body>
-</html>
+        const promptText = `أنت طبيب عائلة ذكي وودي ومجتمعي. قم بتحليل الحالة التالية وتقديم إرشادات منزلية، أعشاب طبيعية مقترحة، وخيارات صيدلانية آمنة (OTC) مع التأكيد دائماً في بداية ونهاية ردك على إخلاء المسؤولية الطبي بأن هذا مجرد استئناس وتوجيه أولي ولا يغني عن زيارة الطبيب المختص. حالة المريض هي: "${symptoms}"`;
+
+        try {
+            const response =احفظ هذا الكود في ملفك (index.html) وجربه، وسيعمل معك بذكاء اصطناعي حقيقي ومباشر بإذن الله!
