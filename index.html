@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طبيب وحكيم العائلة الذكي - المطور: عمر حسان</title>
+    <title>حكيم وطبيب العائلة الذكي - المطور: عمر حسان</title>
     <style>
         :root {
             --primary-color: #0d9488;
@@ -74,7 +74,7 @@
             margin-bottom: 15px;
         }
 
-        textarea, input[type="text"], input[type="file"] {
+        textarea, input[type="text"] {
             width: 100%;
             padding: 10px;
             border: 1px solid var(--border-color);
@@ -137,7 +137,6 @@
         <p>استشارات دافئة، وصفات أعشاب منزلية، واقتراحات توجيهية آمنة</p>
     </header>
 
-    <!-- إخلاء المسؤولية القانونية والعلمية لحماية المشروع وضمان الأمانة العلمية -->
     <div class="banner">
         ⚠️ <strong>إخلاء مسؤولية هام:</strong> هذا التطبيق أداة توجيهية واستئناس منزلي أولي تعتمد على الذكاء الاصطناعي، و**ليست** بديلاً نهائياً عن استشارة الطبيب البشري المختص أو التشخيص السريري المعتمد. في الحالات الطارئة أو الخطيرة، يرجى مراجعة المستشفى فوراً.
     </div>
@@ -145,14 +144,14 @@
     <div class="section">
         <h3>🔑 مفتاح الذكاء الاصطناعي (API Key)</h3>
         <div class="form-group">
-            <input type="text" id="api-key-input" value="AQ.Ab8RN6J1YlMPwHYXeS7nkaDAfEMRCQPBnXpv2dVDi85O3FNBIg" placeholder="مفتاح Google AI Studio...">
+            <input type="text" id="api-key-input" placeholder="ألصق مفتاح Google AI Studio هنا...">
         </div>
     </div>
 
     <div class="section">
         <h3>1. شكوى المريض والأعراض</h3>
         <div class="form-group">
-            <textarea id="symptoms-text" rows="4" placeholder="اكتب هنا ما تشتكي منه أو يشتكي منه أي فرد من العائلة بتفصيل (مثال: ألم بالحلق، صداع، ارتفاع حرارة)..."></textarea>
+            <textarea id="symptoms-text" rows="4" placeholder="اكتب هنا ما تشتكي منه أو يشتكي منه أي فرد من العائلة بتفصيل..."></textarea>
         </div>
     </div>
 
@@ -165,7 +164,7 @@
     <div id="result-area"></div>
 
     <footer>
-        تطوير وإعداد المساعد الصحي والمنزلي الذكي | الأستاذ عمر حسن عبره
+        تطوير وإعداد المساعد الصحي والمنزلي الذكي | الأستاذ عمر حسان عبره
     </footer>
 </div>
 
@@ -177,7 +176,7 @@
         const loadingSpinner = document.getElementById('loading-spinner');
 
         if (!apiKey) {
-            alert("يرجى التأكد من وجود مفتاح API في الخانة المخصصة بالأعلى.");
+            alert("يرجى إدخال مفتاح Google AI Studio في الخانة المخصصة بالأعلى أولاً.");
             return;
         }
 
@@ -192,4 +191,35 @@
         const promptText = `أنت طبيب عائلة ذكي وودي ومجتمعي. قم بتحليل الحالة التالية وتقديم إرشادات منزلية، أعشاب طبيعية مقترحة، وخيارات صيدلانية آمنة (OTC) مع التأكيد دائماً في بداية ونهاية ردك على إخلاء المسؤولية الطبي بأن هذا مجرد استئناس وتوجيه أولي ولا يغني عن زيارة الطبيب المختص. حالة المريض هي: "${symptoms}"`;
 
         try {
-            const response =احفظ هذا الكود في ملفك (index.html) وجربه، وسيعمل معك بذكاء اصطناعي حقيقي ومباشر بإذن الله!
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: promptText }]
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            loadingSpinner.style.display = 'none';
+
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                resultArea.innerText = data.candidates[0].content.parts[0].text;
+                resultArea.style.display = 'block';
+            } else if (data.error) {
+                alert("حدث خطأ من الخادم: " + (data.error.message || "تأكد من صحة المفتاح."));
+            } else {
+                alert("لم يتم تلقي استجابة صحيحة من الخادم.");
+            }
+        } catch (error) {
+            loadingSpinner.style.display = 'none';
+            console.error(error);
+            alert("حدث خطأ في الاتصال بالشبكة أو المفتاح غير صالح.");
+        }
+    }
+</script>
+</body>
+</html>
